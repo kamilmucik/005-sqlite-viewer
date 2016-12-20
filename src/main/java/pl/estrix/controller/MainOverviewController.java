@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import javafx.fxml.FXML;
 import pl.estrix.app.MainApp;
 import pl.estrix.model.SQLQuery;
+import pl.estrix.persist.SQLLiteQueryBean;
 
 public class MainOverviewController {
 	
@@ -100,11 +101,8 @@ public class MainOverviewController {
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 		queryTable.setItems(mainApp.getQueriesData());
-		LOG.debug(">>>" + mainApp.getQueriesData());
 	}
 
-
-	
 	public void disableButtons(Boolean disable){		
 		if (disable){
 			newButton.setDisable(true);
@@ -118,18 +116,27 @@ public class MainOverviewController {
 			executeButton.setDisable(false);
 		}
 	}
-	
-	public void updateTable (){
-//		int selectedIndex = patientTable.getSelectionModel().getSelectedIndex();
-//
-//		patientTable.setItems(null);
-//		patientTable.setItems(mainApp.updatePatientData());
-//		Patient selectedPerson = patientTable.getSelectionModel()
-//				.getSelectedItem();
-//		showPatientDetails(selectedPerson);
-//
-//		patientTable.getSelectionModel().select(selectedIndex);
+
+	private boolean isInputValid() {
+		String errorMessage = "";
+
+		if (nameField.getText() == null || nameField.getText().length() == 0) {
+			errorMessage += "No valid first name!\n";
+			nameField.setStyle("-fx-text-box-border: red ;");
+			nameField.setTooltip(new Tooltip("Pone nie może byc puste."));
+		}
+
+		if (errorMessage.length() == 0) {
+			nameField.setStyle("-fx-text-box-border: lightgrey  ;");
+			nameField.setTooltip(null);
+			return true;
+		} else {
+			// Show the error message
+			return false;
+		}
 	}
+
+
 
 	private void refreshQueryTable() {
 		int selectedIndex = queryTable.getSelectionModel().getSelectedIndex();
@@ -147,23 +154,44 @@ public class MainOverviewController {
 	@FXML
 	private void handleSave() {
 		LOG.debug("zapis");
+		if (isInputValid()) {
+			SQLQuery selected = null;
+			if (isNew) {
+				selected = new SQLQuery();
+			} else {
+				selected = queryTable.getSelectionModel().getSelectedItem();
+			}
 
-		refreshQueryTable();
+			selected.setName( (nameField.getText()!=null)?nameField.getText():"" );
+			selected.setContent( (contentField.getText()!=null)?contentField.getText():"");
+
+			SQLLiteQueryBean.save(selected);
+			refreshQueryTable();
+		}
 	}
 
 	@FXML
 	private void handleNew() {
-		LOG.debug("nowy");
+		showQueryDetails(null);
 	}
 
 	@FXML
 	private void handleExecute() {
-		LOG.debug("wykonaj");
+
+		infoLabel.setText("Wykontywanie zapytania.");
 	}
 
 	@FXML
 	private void handleDelete() {
-		LOG.debug("delete");
+		int selectedIndex = queryTable.getSelectionModel().getSelectedIndex();
+		if (selectedIndex > 0) {
+			SQLQuery selected = queryTable.getSelectionModel().getSelectedItem();
+			SQLLiteQueryBean.delete(selected);
+			queryTable.getItems().remove(selectedIndex);
+			refreshQueryTable();
+		} else {
+			infoLabel.setText("Wybierz zapytanie do usunięcia.");
+		}
 	}
 
 }

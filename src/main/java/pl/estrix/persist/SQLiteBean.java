@@ -10,7 +10,7 @@ public class SQLiteBean {
 
     private static Logger LOG = Logger.getLogger(SQLiteBean.class);
 
-    public static final void createTable(String query){
+    public static final boolean createTable(String query){
         try {
             Connection conn = null;
             try {
@@ -18,7 +18,7 @@ public class SQLiteBean {
 
                 if (conn == null) {
                 } else {
-                    SQLiteDAO.createTable(conn, query);
+                    return SQLiteDAO.createTable(conn, query);
                 }
             } finally {
                 if (conn != null) {
@@ -28,6 +28,7 @@ public class SQLiteBean {
         } catch (Exception e) {
             LOG.error("SQLiteBean", e);
         }
+        return false;
     }
 
 }

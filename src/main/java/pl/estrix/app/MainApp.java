@@ -26,6 +26,7 @@ import pl.estrix.controller.RootLayoutController;
 import pl.estrix.model.SQLQuery;
 import pl.estrix.persist.SQLLiteQueryBean;
 import pl.estrix.persist.SQLiteBean;
+import pl.estrix.util.SQLiteUtil;
 
 public class MainApp extends Application {
 
@@ -66,14 +67,16 @@ public class MainApp extends Application {
 
 		Path filePath = Paths.get(".baza.db");
 		boolean fileExists = Files.exists(filePath, LinkOption.NOFOLLOW_LINKS);
+		LOG.debug("fileExists: " + fileExists + " : " + filePath.toAbsolutePath());
 		if (fileExists == false) {
-			SQLiteBean.createTable("");
+			boolean isCreated = SQLiteBean.createTable("");
+			LOG.debug("isCreated: " + isCreated);
 		} else {
 			List<SQLQuery> queryList = SQLLiteQueryBean.getAll();
 			if (queryList != null)
 				Collections.sort(queryList);
-			queriesData.clear();
-			queriesData.addAll(queryList);
+//			queriesData.clear();
+//			queriesData.addAll(queryList);
 		}
 
 	}
@@ -186,7 +189,10 @@ public class MainApp extends Application {
 
 	public ObservableList<SQLQuery> getQueriesData() {
 		queriesData.clear();
-		queriesData.addAll(SQLLiteQueryBean.getAll());
+
+		List items =SQLLiteQueryBean.getAll();
+		if (items != null)
+			queriesData.addAll(items);
 		return queriesData;
 	}
 

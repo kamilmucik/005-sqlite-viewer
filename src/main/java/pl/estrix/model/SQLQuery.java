@@ -2,7 +2,7 @@ package pl.estrix.model;
 
 public class SQLQuery implements Comparable<SQLQuery> {
 
-    private Integer id;
+    private Integer id = 0;
 
     private String name;
 

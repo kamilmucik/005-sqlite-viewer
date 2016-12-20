@@ -1,0 +1,47 @@
+.split-pane-divider {
+   -fx-background-color: transparent;
+   -fx-padding: 0 0 0 0;
+}
+
+.split-pane *.vertical-grabber, .split-pane *.horizontal-grabber {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-shape: " ";
+}
+
+.split-pane {
+    -fx-padding: 1 0 0 0;
+}
+
+.main-bar-buttons {
+   -fx-padding: 5 22 5 22;
+    -fx-border-color: #FFFFFF;
+    -fx-text-fill: #26A65B;
+    -fx-border-width: 1;
+    -fx-background-radius: 0;
+    -fx-background-color: #FFFFFF;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11pt;
+   -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
+.main-bar-buttons:hover {
+/*   -fx-border-color: #26A65B; */
+  -fx-cursor: hand;
+}
+
+.main-bar-buttons:pressed {
+/*   -fx-border-color: #f9690e; */
+ -fx-cursor: wait;
+}
+
+.white-background {
+        -fx-background-color: #FFFFFF;
+}
+
+.main-bar-field {
+        -fx-border-width: 1;
+    -fx-background-radius: 0;
+    -fx-border-color: #26A65B;
+}

@@ -12,10 +12,6 @@ import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 
 
 /**
- * http://www.tutorialspoint.com/sqlite/sqlite_java.htm
- * http://javastart.pl/static/zaawansowane-programowanie/bazy-danych-sqlite-w-javie/
- * http://www.javaxt.com/javaxt-core/sql/ConnectionPool
- * http://stackoverflow.com/questions/22303796/set-sqlite-connection-properties-in-c3p0-connection-pool
  * @author Kamil Mucik
  *
  */
@@ -25,9 +21,10 @@ public enum SQLiteUtil {
 
     private Logger LOG = Logger.getLogger(SQLiteUtil.class);
 
-    public static final String DB_NAME = ".baza.db";
     private static final String DRIVER = "org.sqlite.JDBC";
     private static final String DB_URL = "jdbc:sqlite:.baza.db";
+
+    private static final String DB_URL_TARGET = "jdbc:sqlite:history.db";
 
     private Connection conn;
     private Statement stat;
@@ -69,6 +66,41 @@ public enum SQLiteUtil {
 
             SQLiteConnectionPoolDataSource dataSource = new SQLiteConnectionPoolDataSource();
             dataSource.setUrl(DB_URL);
+
+            //Pass in some additional config options (optional)
+            org.sqlite.SQLiteConfig config = new org.sqlite.SQLiteConfig();
+            config.enforceForeignKeys(true);
+            config.enableLoadExtension(true);
+            dataSource.setConfig(config);
+            //Instantiate the Connection Pool Manager
+            MiniConnectionPoolManager poolMgr = new MiniConnectionPoolManager(dataSource, 40);
+
+
+            return poolMgr.getConnection();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    public Connection getTargetConnection() throws SQLException{
+
+        Connection con = null;
+
+        try {
+            Class.forName(SQLiteUtil.DRIVER);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+
+        try {
+            con = DriverManager.getConnection(DB_URL_TARGET);
+
+
+            SQLiteConnectionPoolDataSource dataSource = new SQLiteConnectionPoolDataSource();
+            dataSource.setUrl(DB_URL_TARGET);
 
             //Pass in some additional config options (optional)
             org.sqlite.SQLiteConfig config = new org.sqlite.SQLiteConfig();

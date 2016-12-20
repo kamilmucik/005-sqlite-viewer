@@ -75,7 +75,9 @@ public class SQLLiteQueryDAO {
         ResultSet rs = null;
 
         try {
-
+            LOG.debug(query.getId());
+            LOG.debug(query.getName());
+            LOG.debug(query.getContent());
             if (query.getId() > 0) {
                 ps = conn.prepareStatement("UPDATE sql_query SET " +
                                                 /*01*/"name=?, " +
