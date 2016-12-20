@@ -41,8 +41,6 @@ public class MainOverviewController {
 	private TextField nameField;
 	@FXML
 	private TextArea contentField;
-//	@FXML
-//	private TextArea resultField;
 	@FXML
 	TableView<List<String>> table = new TableView<>();
 
@@ -170,7 +168,6 @@ public class MainOverviewController {
 
 	@FXML
 	private void handleSave() {
-		LOG.debug("zapis");
 		if (isInputValid()) {
 			SQLQuery selected = null;
 			if (isNew) {

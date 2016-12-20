@@ -14,7 +14,7 @@
 	   <param name="maxFileSize" value="10MB" />
 	   <param name="maxBackupIndex" value="5" />
 	   <!-- For Tomcat -->
-	   <param name="file" value="./log/sms-sender.log" />
+	   <param name="file" value="./log/reporter.log" />
 	   <layout class="org.apache.log4j.PatternLayout">
 		<param name="ConversionPattern" 
 			value="[%d{dd MMM yyyy HH\:mm\:ss,SSS}][%5p][%c{1}][%x] - %m%n" />
