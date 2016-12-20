@@ -7,9 +7,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.stage.WindowEvent;
 import org.apache.log4j.Logger;
 
 import javafx.application.Application;
@@ -26,7 +31,6 @@ import pl.estrix.controller.RootLayoutController;
 import pl.estrix.model.SQLQuery;
 import pl.estrix.persist.SQLLiteQueryBean;
 import pl.estrix.persist.SQLiteBean;
-import pl.estrix.util.SQLiteUtil;
 
 public class MainApp extends Application {
 
@@ -37,6 +41,8 @@ public class MainApp extends Application {
 	private Image icon;
 
 	private ObservableList<SQLQuery> queriesData = FXCollections.observableArrayList();
+
+	private ExecutorService executor = Executors.newFixedThreadPool(4);
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -71,12 +77,6 @@ public class MainApp extends Application {
 		if (fileExists == false) {
 			boolean isCreated = SQLiteBean.createTable("");
 			LOG.debug("isCreated: " + isCreated);
-		} else {
-			List<SQLQuery> queryList = SQLLiteQueryBean.getAll();
-			if (queryList != null)
-				Collections.sort(queryList);
-//			queriesData.clear();
-//			queriesData.addAll(queryList);
 		}
 
 	}
@@ -123,6 +123,15 @@ public class MainApp extends Application {
 	}
 
 	public void closeApp() {
+		executor.shutdownNow();
+		try {
+			if (!executor.awaitTermination(100, TimeUnit.MICROSECONDS)) {
+                LOG.debug("Still waiting...");
+                System.exit(0);
+            }
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		((javafx.stage.Stage) this.getPrimaryStage().getScene().getWindow()).close();
 	}
 
@@ -196,4 +205,7 @@ public class MainApp extends Application {
 		return queriesData;
 	}
 
+	public ExecutorService getExecutor() {
+		return executor;
+	}
 }

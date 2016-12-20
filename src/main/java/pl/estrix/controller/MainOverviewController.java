@@ -27,7 +27,7 @@ public class MainOverviewController {
 	
 	static Logger LOG = Logger.getLogger(MainOverviewController.class);
 
-	private static ExecutorService executor = Executors.newFixedThreadPool(4);
+//
 
 	@FXML
 	private TableView<SQLQuery> queryTable;
@@ -195,7 +195,7 @@ public class MainOverviewController {
 			table.getColumns().clear();
 		});
 
-		final CompletableFuture<List<Map<String, Object>>> completableFuture = CompletableFuture.supplyAsync(() -> SQLiteTargetBean.executeQuery((contentField.getText()!=null)?contentField.getText():""), executor);
+		final CompletableFuture<List<Map<String, Object>>> completableFuture = CompletableFuture.supplyAsync(() -> SQLiteTargetBean.executeQuery((contentField.getText()!=null)?contentField.getText():""), mainApp.getExecutor());
 
 		Platform.runLater(() -> completableFuture.whenComplete((res, ex) -> {
             if (ex != null) {
