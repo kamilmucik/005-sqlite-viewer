@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="background-img" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.estrix.controller.MainOverviewController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="background-img" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.estrix.controller.MainOverviewController">
    <children>
       <SplitPane dividerPositions="0.11036789297658862" maxHeight="1.7976931348623157E308" minHeight="-Infinity" orientation="VERTICAL" prefHeight="599.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
@@ -52,7 +52,7 @@
                                                 </AnchorPane>
                                               <AnchorPane>
                                                    <children>
-                                                      <TextArea layoutX="245.0" layoutY="24.0" prefHeight="248.0" prefWidth="690.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <TableView fx:id="table" layoutX="51.0" layoutY="30.0" prefHeight="259.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children>
                                                 </AnchorPane>
                                             </items>

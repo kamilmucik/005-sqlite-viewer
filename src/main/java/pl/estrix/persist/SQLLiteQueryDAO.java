@@ -9,9 +9,7 @@ import java.util.List;
 
 public class SQLLiteQueryDAO {
 
-
     private static Logger LOG = Logger.getLogger(SQLLiteQueryDAO.class);
-
 
     public static List<SQLQuery> getAll(Connection conn) {
         List<SQLQuery> items = new ArrayList<>();
@@ -29,6 +27,7 @@ public class SQLLiteQueryDAO {
         }
         return items;
     }
+
     public static SQLQuery getById(Connection conn, Integer id) {
         List<SQLQuery> templates = new ArrayList<>();
 
